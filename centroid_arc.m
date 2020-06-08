@@ -4,11 +4,6 @@ clc
 clear all
 close all 
 
-<<<<<<< HEAD
-%%TEST123%%
-
-=======
->>>>>>> cfe73cf2d65fed9000569bee3328f40bb823cd3d
 %knowns
 L = 1;
 k = 1:.1:(2*pi)/L;
