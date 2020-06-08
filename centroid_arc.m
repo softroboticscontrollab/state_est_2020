@@ -4,8 +4,6 @@ clc
 clear all
 close all 
 
-%%TEST%%
-
 %knowns
 L = 1;
 k = 1:.1:(2*pi)/L;
