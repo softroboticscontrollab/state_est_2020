@@ -7,14 +7,14 @@ close all
 %% enter constants for sample calculations
 %enter arbitrary values for thetas
 t1 = 0 * pi/180;
-t1p = 60 * pi/180;
+t1p = 98 * pi/180;
 
 % determine bar length form curvature, k
 L = .05;   %length of curved arm (m)
-k1 = 10;   %curvature of arm 1 (m^-1)
-k2 = 12;   %curvature of arm 2 (m^-1)
-k3 = 10;   %curvature of arm 3 (m^-1)
-k1p = 10;  %curvature of arm 1p (m^-1)
+k1 = 20;   %curvature of arm 1 (m^-1)
+k2 = 33;   %curvature of arm 2 (m^-1)
+k3 = 30;   %curvature of arm 3 (m^-1)
+k1p = 20;  %curvature of arm 1p (m^-1)
 K = [k1,k2,k3,k1p]; %vector of curvatures
 a = barcalc(K,L); %determine bar lengths (m)
 %assign bar lengths to variables
@@ -107,6 +107,10 @@ hold on
 plot(xf,yf,'x',x_cent,y_cent,'ro')
 legend('arm 1','arm 2','arm 3','arm 1p','COM of arm','COM of robot')
 axis equal
+xlabel('x-location (m)')
+ylabel('y-location (m)')
+set(gcf,'color','w');
+axis ([-.01 .07 -.01 .07])
 
 %% check condition from book
 t1 = t1*pi/180;
