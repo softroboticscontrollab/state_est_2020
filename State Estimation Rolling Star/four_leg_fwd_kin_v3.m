@@ -19,7 +19,7 @@ syms a1 a2 a3 a1p t1 t2 t3 t1p
 a = [a1 a2 a3].';
 alpha = [0 0 0].';
 d = [0 0 0].';
-theta = [t1 t2 t3].';
+theta = [0 t2 t3].';
 [T0_n,Tnm1_n] = fwdkinRISS(a, alpha, d, theta)
 
 %% forward kinematics fram 0 to a1p
@@ -37,8 +37,13 @@ R3_0 = T0_n{3}(1:3,1:3).'
 simplify(R3_0*(P0_3-P0_1p))
 % 
 z = simplify(P0_3-P0_1p)
+% 
+% x = z(1,1)
+% y = z(2,1)
+% 
+% simplify(expand(x- y))
 
-x = z(1,1)
-y = z(2,1)
+simplify(expand(((a3*cos(t2 + t3) + a2*cos(t2) - a1p*cos(t1p))-(a3*sin(t2 + t3) + a2*sin(t2) - a1p*sin(t1p)))^2))
 
-simplify(expand(x- y))
+
+
