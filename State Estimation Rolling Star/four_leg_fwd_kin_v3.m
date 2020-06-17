@@ -45,5 +45,6 @@ z = simplify(P0_3-P0_1p)
 
 simplify(expand(((a3*cos(t2 + t3) + a2*cos(t2) - a1p*cos(t1p))-(a3*sin(t2 + t3) + a2*sin(t2) - a1p*sin(t1p)))^2))
 
+[0;0;0]
 
 
