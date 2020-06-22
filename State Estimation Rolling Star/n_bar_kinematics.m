@@ -33,55 +33,40 @@ end
 
 
 %% forward kinematics fram 0 to a1p
-% a = [a1p].';
-% alpha = [0].';
-% d = [0].';
-% theta = [t1p].';
-
-%calculate kinematics
 [T0_np,Tnm1_np] = fwdkinRISS(a1p, 0, 0, t1p);
 
 %% closed loop constraints
-xLm2 = T0_n{L-2}(1,4);
-yLm2 = T0_n{L-2}(2,4);
+xLm3 = T0_n{L-3}(1,4);
+yLm3 = T0_n{L-3}(2,4);
 aLm1 = a(L-1);
 aLm2 = a(L-2);
-y = sqrt(xLm2^2+yLm2^2);
-gamma = atan2(yLm2,xLm2);
+y = sqrt(xLm3^2+yLm3^2);
+gamma = atan2(yLm3,xLm3);
 
 x = sqrt(y^2 + a1p^2 - 2*y*a1p*cos(t1p-gamma));
 alpha = asin((a1p*sin(t1p-gamma))/x);
-beta = acos((x^2 + aLm2^2 - aLm1^2)/(2*x*a2));
+beta = acos((x^2 + aLm2^2 - aLm1^2)/(2*x*a(L-2)));
 
-tLm2 = pi - alpha - beta - sum(theta,[1,L-2]);
+tLm2 = pi - alpha - beta - sum(theta(1:L-3));
 zeta = asin((x*sin(beta))/aLm1);
 tLm1 = pi-zeta;
 
-%% print symbolic solution
+% print symbolic solution
 for i = 1:L-1
     if i<L-2
-        fprintf('Transomation %2.0f\n',i)
+        fprintf('Transomation 0 to %2.0f\n',i)
         T0_n{i}
     else
-        fprintf('Transomation %2.0f\n',i)
-        simplify(subs(T0_n{i},{theta(L-1),theta(L-2)},{tLm2,tLm1}))
+        fprintf('Transomation 0 to %2.0f\n',i)
+        (subs(T0_n{i},{theta(L-1),theta(L-2)},{tLm2,tLm1}))
     end
    
 
-    end
-%     
-% T0_n{1}
-% 
-% subs(theta(L-2),tLm2)
-% subs(theta(L-1),tLm1)
+end
+ 
+fprintf('Transomation 0 to 1p')
+T0_np{1}
 
-
-
-% angle_name = strcat('t',num2str(i)); 
-% syms(angle_name);
-% theta(end+1) = angle_name;
-% 
-% t = pi - alpha - beta;
 
 
 
