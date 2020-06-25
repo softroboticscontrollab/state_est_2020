@@ -45,7 +45,7 @@ gamma = atan2(yLm3,xLm3);
 
 x = sqrt(y^2 + a1p^2 - 2*y*a1p*cos(t1p-gamma));
 alpha = asin((a1p*sin(t1p-gamma))/x);
-beta = acos((x^2 + aLm2^2 - aLm1^2)/(2*x*a(L-2)));
+beta = acos((x^2 + aLm2^2 - aLm1^2)/(2*x*aLm2));
 
 tLm2 = pi - alpha - beta - sum(theta(1:L-3));
 zeta = asin((x*sin(beta))/aLm1);
@@ -60,9 +60,7 @@ for i = 1:L-1
         fprintf('Transomation 0 to %2.0f\n',i)
         (subs(T0_n{i},{theta(L-1),theta(L-2)},{tLm2,tLm1}))
     end
-   
-
-end
+ end
  
 fprintf('Transomation 0 to 1p')
 T0_np{1}

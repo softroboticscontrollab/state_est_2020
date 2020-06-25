@@ -16,8 +16,8 @@ t4 = 51.43 * pi/180;
 
 % determine bar length form curvature, k
 curve_L = .05;   %length of curved arm (m)
-k1 = 14;   %curvature of arm 1 (m^-1)
-k2 = 13;   %curvature of arm 2 (m^-1)
+k1 = 15;   %curvature of arm 1 (m^-1)
+k2 = 15;   %curvature of arm 2 (m^-1)
 k3 = 15;   %curvature of arm 3 (m^-1)
 k4 = 15;   %curvature of arm 1 (m^-1)
 k5 = 15;   %curvature of arm 2 (m^-1)
@@ -96,7 +96,12 @@ x(i+2) = 0;
 y(i+2) = 0;
 
 
-plot(x(1:2),y(1:2),'g-',x(2:3),y(2:3),'b-',x(3:4),y(3:4),'-',x(4:5),y(4:5),'r-',x(5:6),y(5:6),'k-',x(6:7),y(6:7),'m-',x(7:8),y(7:8),'y-')
+p1 = plot(x(1:2),y(1:2),'g-',x(2:3),y(2:3),'b-',x(3:4),y(3:4),'-',x(4:5),y(4:5),'r-',x(5:6),y(5:6),'k-',x(6:7),y(6:7),'m-',x(7:8),y(7:8),'c-')
+width = 3;
+for i = 1:length(p1)
+    set(p1(i),{'LineWidth'},{width})
+end
+
 legend('arm 1','arm 2','arm 3','arm 4','arm 5','arm 6','arm 1p')
 axis equal
 xlabel('x-location (m)')
