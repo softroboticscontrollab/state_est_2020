@@ -5,7 +5,7 @@ clear all
 close all 
 
 %% enter parameters
-K=30;
+K=100;
 m=7;
 g=9.81;
 l=1;
@@ -14,7 +14,7 @@ param = [K,m,g,l,theta0];
 
 R=@resid_single_pend;
 dRdx=@dresid_single_pend;
-xi=pi*2;
+xi=0;
 tol=0.0001;
 maxIter=100;
 toggle=1;
