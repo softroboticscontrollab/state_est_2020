@@ -9,7 +9,7 @@ L = 1;
 k = 1:.1:(2*pi)/L;
 
 
-alpha = (L*k)/2;
+alpha = (L*k)/2; 
 z = (sin(alpha))./(k.*alpha) - cos(alpha)./k;
 
 plot(k,z)
