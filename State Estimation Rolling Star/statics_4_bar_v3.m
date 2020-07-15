@@ -1,10 +1,12 @@
-%%RISS 2020 STATICS 4-BAR v2%%
+%% RISS 2020 STATICS 4-BAR v2 %%
+% Using statics, determine the necessary angles to fully define the shape
+% of the robot.  This script utilizes the equler lagrange approach
 
 clc
 clear all
 close all 
 
-%create variables
+%create symbolic variables
 syms f2y a1 a2 a3 a1p t0 t1 t2 t3 t1p m1 m2 m3 m1p g k1 k2 k2 k3 k1p 
 
 %% forward kinematics fram 0 to 3
@@ -18,8 +20,8 @@ theta = [t1 t2 t3].';
 [T0_np,Tnm1_np] = fwdkinRISS(a1p, 0, 0, t1p);
 
 %% Determine Jacobians at COM
-%enter necessary directions and vectors
-z00 = T0_n{1}(1:3,1);
+%enter necessary directions and kinematics
+z00 = T0_n{1}(1:3,1); 
 P01 = T0_n{1}(1:3,4);
 P01p = T0_np{1}(1:3,4);
 P02 = T0_n{2}(1:3,4);
@@ -37,7 +39,6 @@ JV1 = simplify(diff(P0G1,t1));
 JV2 = simplify(diff(P0G1,t2));
 JV3 = simplify(diff(P0G1,t3));
 
-
 %create J matrix
 JVG1 = [JV1 JV2 JV3]
 
@@ -54,7 +55,6 @@ JV1 = simplify(diff(P0G3,t1));
 JV2 = simplify(diff(P0G3,t2));
 JV3 = simplify(diff(P0G3,t3));
 
-
 %create J matrix
 JVG3 = [JV1 JV2 JV3]
 
@@ -68,8 +68,8 @@ JV4 = simplify(diff(P0G1p,t1p));
 JVG1p = [JV4]
 
 %% create gravity vector
-g_dir = [0 -g 0].';
-G1_3 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir]
+g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
+G1_3 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir] 
 G1p = -[JVG1p.']*[m1p.*g_dir]
 
 %% external force analysis
@@ -97,7 +97,7 @@ G1p = -[JVG1p.']*[m1p.*g_dir]
 % tau1p = k1p*(t0-(2*pi-t1p-alpha-beta-zeta));
 % tau = [t1,t2,t3,t1p]
 
-% %% solution in terms of t1p
+%% solution in terms of t1p
 % final = subs(G+statics_ext,{t1,t2,t3},{0,t2_final,t3_final});
 % final = (subs(final,{t1,t2,t3},{0,t2_final,t3_final}))
 % 

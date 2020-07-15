@@ -1,6 +1,24 @@
 function [xrt,er_est]=func_MDnewton(resid_vec,dRdx,xi,tol,maxIter,toggle,param)
+%   Inputs:
+%
+%   resid_vec = function to deterrmine vector of residuals
+%   dRdx = rate of change of residuals
+%   xi = solver initial value
+%   tol = solution tolerance
+%   maxIter = max interations to find solution
+%   toggle = 1 prints results
+%   param = vector of parameters
+% 
+%   Outputs:
+%
+%   soln = solution
+%   er_est = error
+
+%initialize i
 i=1;
+%set solution to initial guess
 x=xi;
+%run numeric solver
 if toggle == 1
 fprintf('\nIteration      corr       xrt\n');
 end

@@ -1,4 +1,6 @@
 %%RISS 2020 STATICS EXAMPLE%%
+% determine the statics of a double pendulum knowing curvatures, geometry,
+% masses and angles.  Plot the result and true COM's of bar 
 
 clc
 clear all
@@ -46,6 +48,7 @@ JVG1 = [JV1 JV2];
 JV1 = simplify(cross(z0_0,P0_G2));
 JV2 = simplify(cross(z0_1,P1_G2));
 
+%create J matrix
 JVG2 = [JV1 JV2];
 
 %% create gravity vector

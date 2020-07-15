@@ -1,7 +1,8 @@
 %% RISS 2020 7-BAR KINEMATICS NUMERIC SOLVER %%
 % Given the arc lengths, curvatures, material proprties and necessary 
-% angles to fully define the robot's pose, determine transformation 
-% matricies from the base to each of the robot's joints
+% angles to fully define the 7-bar robot's pose, determine transformation 
+% matricies numerically from the base to each of the robot's joints and 
+% print them
 
 clc
 clear all
@@ -34,16 +35,16 @@ a_num = barcalc(K,curve_L); %determine bar lengths (m)
 syms x y alpha beta zeta gamma t6 t5 %create symbolic variables
 theta = [t1,t2,t3,t4,t5,t6]; %create a vector of angles 
 
-%create d and alpha vectors of 0
+% Create d and alpha vectors of 0
 for i=1:L-1
     alpha(i,1) = 0;
     d(i,1) = 0;
 end
 
-%calculate kinematics
+% Calculate kinematics from frame 0 to L-1
 [T0_n,Tnm1_n] = fwdkinRISSnum(a_num(1:L-1), alpha, d, theta);
 
-%% Forward kinematics fram 0 to a1p
+% Forward kinematics fram 0 to a1p
 [T0_np,Tnm1_np] = fwdkinRISSnum(a_num(L), 0, 0, t1p);
 
 %% Closed loop constraints
@@ -57,10 +58,11 @@ gamma = atan2(yLm3,xLm3);
 x = vpa(sqrt(y^2 + a1p^2 - 2*y*a1p*cos(t1p-gamma)),5);
 alpha = vpa(asin((a1p*sin(t1p-gamma))/x),5);
 beta = acos((x^2 + aLm2^2 - aLm1^2)/(2*x*aLm2));
-t5_num = vpa(pi - alpha - beta - (sum(theta(1:L-3))-gamma),5);
 s_zeta = (x*sin(beta))/aLm1;
 c_zeta = (-x^2+aLm1^2+aLm2^2)/(2*aLm1*aLm2);
 zeta = atan2(s_zeta,c_zeta);
+% Calculate the two unknown angles
+t5_num = vpa(pi - alpha - beta - (sum(theta(1:L-3))-gamma),5);
 t6_num = vpa(pi-zeta,5);
 
 %% Find and print solution
@@ -79,9 +81,6 @@ end
 
 fprintf('Transomation 0 to 1p')
 T0_np{1}
-
-% theta_num_deg = vpa(subs(theta,{t5,t6},{t5_num,t6_num})*180/pi,6)
-% theta_num_rad = vpa(subs(theta,{t5,t6},{t5_num,t6_num}),6)
 
 %% Plot solution
 x(1) = 0;
