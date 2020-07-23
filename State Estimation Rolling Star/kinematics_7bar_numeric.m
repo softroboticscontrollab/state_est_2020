@@ -13,7 +13,7 @@ L = 7;  %enter the number of bars (leave as 7 for this script)
 
 % Enter L-3 joint angles
 t1 = 0 * pi/180;        %jt angle 1 (rad)
-t1p = 128.57 * pi/180;  %jt angle 1' (rad)
+t1p = 133.3455 * pi/180;  %jt angle 1' (rad)
 t2 = 51.43 * pi/180;    %jt angle 2 (rad)
 t3 = 51.43 * pi/180;    %jt angle 3 (rad)
 t4 = 51.43 * pi/180;    %jt angle 4 (rad)

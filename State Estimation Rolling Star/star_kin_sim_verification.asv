@@ -115,19 +115,20 @@ plot(curve_data{1}(1,:),curve_data{1}(2,:))
 hold on 
 plot(curve_data{2}(1,:),curve_data{2}(2,:),'g')
 
-%% dertiremine the jt angles of L-3 limbs from sim data
+%% dertiremine the jt angles of L-3 limbs
 %(compare with statics model later on)
+
 %calculate angle vector in form: theta = [t1p,t2,t3,t_L-3]
 theta(1) = int_ang(circ_tips(:,num_limbs),circ_tips(:,1),circ_tips(:,2));
+
 %calculate other necessary angles
 for m = 2:num_limbs-3
     theta(m) = pi-int_ang(circ_tips(:,m-1),circ_tips(:,m),circ_tips(:,m+1));
 end
-%calcualate thetas 
 theta_deg = theta*180/pi;
 
-%% Fwd kinematics curved sections
-% fwd kin function stright sections
+%% detremine the forward kinematics
+
 [tip_pos,T0_n,T0_np, a] = kin_7bar(K,theta,curve_L);
 
 %since the first leg is shifted, from 0, adjust the tip poistion
@@ -136,19 +137,17 @@ y_shift = circ_tips(2,1);
 tip_pos(1,:) = tip_pos(1,:)+x_shift;
 tip_pos(2,:) = tip_pos(2,:)+y_shift;
 
-% Plot the tops of the curved sections
-% figure(2)
+figure(2)
 % plot(tip_pos(1,:),tip_pos(2,:),'bx')
 
-%% Fwd kinematics stright sections
-% fwd kin function curved sections
+%% determine true tip position
+
+Ls = .008;
 [stright_tips,ms] = straight_kin_7bar(T0_n,T0_np,a,K,Ls);
 
-% since the first leg is shifted, from 0, adjust the tip poistion
 stright_tips(1,:) = stright_tips(1,:)+x_shift;
 stright_tips(2,:) = stright_tips(2,:)+y_shift;
 
-% plot cacluated tip locations of the stirhgt sections
 for i = 1:num_limbs
     figure(3)
     axis equal

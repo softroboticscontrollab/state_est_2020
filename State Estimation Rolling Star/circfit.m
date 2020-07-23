@@ -1,4 +1,4 @@
-function   [xc,yc,R,a] = circfit(x,y)
+function   [xc,yc,R] = circfit(x,y)
 %
 %   [xc yx R] = circfit(x,y)
 %
