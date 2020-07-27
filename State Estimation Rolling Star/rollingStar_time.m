@@ -1,4 +1,4 @@
-function [vertex_xy,curve_data,stright_data,curve_tips,tips] = rollingStar_time(simdata,time)
+function [vertex_xy,curve_data,straight_data,curve_tips,tips] = rollingStar_time(simdata,time)
 %,stright_data,circ_tips,tips
 %rollingStar_row inputs the output data from load_simRollingStar_dataset
 %and a specific time.  The function outputs a data structure with the x and
@@ -7,9 +7,12 @@ function [vertex_xy,curve_data,stright_data,curve_tips,tips] = rollingStar_time(
 %   Inputs:
 %
 %   simdata = parsed data from cvs file.
+%
 %   time = point in simulation where we want to inspect the robot
 % 
 %   Outputs:
+%
+%   vertex_xy = vertex data for all vertexes at a particular time
 %
 %   curve_data = struct with 14x2 matricies with the xy verteixes of the
 %   curved section of the arms. Both the first and 14th data points are
@@ -18,9 +21,13 @@ function [vertex_xy,curve_data,stright_data,curve_tips,tips] = rollingStar_time(
 %   stright_data = struct with 14x2 matricies with the xy verteixes of the
 %   stright section of the arms
 %
+%   curve_tips = tips of curved sections from simulation data (2x7 matrix)
+%
+%   tips = tips of stright sections from simulation data (2x7 matrix)
+%
 
 % calulcate the row of the spreadsheet that is closest to the time input
-row = round(200*time+6);
+row = round(200*time)+1;
 simdata = simdata(row,:);
 
 % Hard-code some of the simulation parameters from the text file.
@@ -42,7 +49,6 @@ vertex_y = vertex_xy(2:2:end);
 %the x coordiates in column 1 and the y coordinates in column 2.  Note,
 %each curved section originally has 13 vertexes, but we will add the
 %previous tip as the first entry
-
 circ_x = vertex_x(1:(num_limbs * num_v_per_circ)); %x-coordinates for the curved sections
 circ_y = vertex_y(1:(num_limbs * num_v_per_circ)); %y-coordinates for the curved sections
 
@@ -75,7 +81,7 @@ for i = 1:num_limbs
     stright_y_single_limb = stright_y((i-1)*num_v_per_flat+1:(i*num_v_per_flat));   
     stright_x_single_limb = [curve_data{i}(1,1), stright_x_single_limb];
     stright_y_single_limb = [curve_data{i}(2,1), stright_y_single_limb]; 
-    stright_data{i} = [stright_x_single_limb; stright_y_single_limb];
+    straight_data{i} = [stright_x_single_limb; stright_y_single_limb];
 end
 
 %create vectors of the x and y cooridates of the tips of the robot.  The
@@ -89,8 +95,8 @@ curve_tips = [curve_tips_x; curve_tips_y];
 
 %calculate the xy coordinates of the true tips of the robot
 for i = 1:num_limbs
-    tips_x(i) = stright_data{i}(1,num_v_per_flat+1);
-    tips_y(i) = stright_data{i}(2,num_v_per_flat+1);
+    tips_x(i) = straight_data{i}(1,num_v_per_flat+1);
+    tips_y(i) = straight_data{i}(2,num_v_per_flat+1);
 end
 tips = [tips_x;tips_y];
 end

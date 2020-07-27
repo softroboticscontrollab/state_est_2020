@@ -22,5 +22,6 @@ function [simdata] = load_simRollingStar_dataset(fname)
 
 % Hard-coded for our simulation: data starts at line 6, so counting from
 % zero
-simdata = csvread(fname, 6, 0);
+simdata = csvread(fname, 5, 0);
+
 end

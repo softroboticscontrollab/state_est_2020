@@ -59,6 +59,7 @@ for i = 1:num_limbs
         mnp1 = (Pc{i+1}(1)-T0_n{i}(1,4))/(T0_n{i}(2,4)-Pc{i+1}(2));
         % calculate bisecting slope - if slopes are opposite signs, use
         % correct case
+
         if (mn < 0 && mnp1 > 0)
             ms(i) = (mn*mnp1-1+sqrt((mn^2+1)*(mnp1^2+1)))/(mn+mnp1);
         elseif (mn > 0 && mnp1 < 0)
