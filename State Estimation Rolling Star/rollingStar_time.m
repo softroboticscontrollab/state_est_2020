@@ -99,4 +99,7 @@ for i = 1:num_limbs
     tips_y(i) = straight_data{i}(2,num_v_per_flat+1);
 end
 tips = [tips_x;tips_y];
+
+tips(1,:) = [tips(1,2:7), tips(1,1)];
+tips(2,:) = [tips(2,2:7), tips(2,1)];
 end
