@@ -32,18 +32,18 @@ der_data_fname = 'simRollingStarAllNodes_2020_07_09_143539.csv';
 [simdata] = load_simRollingStar_dataset(der_data_fname);
 
 
-simtime = simdata(:,1);
-
-for i = 1:length(simtime)
-    sim_xy{i} = zeros(2,126);
-    sim_COM_xy{i} = zeros(2,1);
-    model_COM_xy{i} = zeros(2,1);
-    curve_xy{i} = zeros(2,7);
-    straight_xy{i} = zeros(2,7);
-end
-
-for q = 1:length(simtime)
-    time = simtime(q);
+% simtime = simdata(:,1);
+% 
+% for i = 1:length(simtime)
+%     sim_xy{i} = zeros(2,126);
+%     sim_COM_xy{i} = zeros(2,1);
+%     model_COM_xy{i} = zeros(2,1);
+%     curve_xy{i} = zeros(2,7);
+%     straight_xy{i} = zeros(2,7);
+% end
+% 
+% for q = 1:length(simtime)
+%     time = simtime(q);
     
 %%  Parse data from simulation at a particular time
 [vertex_xy,curve_data,straight_data,circ_tips,tips] = rollingStar_time(simdata,time);
@@ -87,12 +87,12 @@ for q = 1:length(simtime)
 % end
 
 %curved sections
-% for i = 1:num_limbs
-%     figure(2)
-%     axis equal
-%     plot(curve_data{i}(1,:),curve_data{i}(2,:),'rx')
-%     hold on
-% end
+for i = 1:num_limbs
+    figure(2)
+    axis equal
+    plot(curve_data{i}(1,:),curve_data{i}(2,:),'k.')
+    hold on
+end
 % xlabel('x-location')
 % ylabel('y-location')
 % set(gcf,'color','w');
@@ -116,11 +116,11 @@ for j = 1:num_limbs
     % calcuale circle from curve fit
     xe = Re*cos(th)+xc;
     ye = Re*sin(th)+yc;
-    % plot curve fit circles
-    % figure(2)
-    % hold on
-    % axis equal
-    % plot([xe;xe(1)],[ye;ye(1)])
+    %plot curve fit circles
+    figure(2)
+    hold on
+    axis equal
+    plot([xe;xe(1)],[ye;ye(1)])
 end
 
 %% dertiremine the jt angles of L-3 limbs from sim data
@@ -197,46 +197,46 @@ simCOM(2) = sum(vertex_y)/length(vertex_y);
 % tips = location of stright tips from simulation data
 % staight_tips = location of stright tips from model
 
-% calculate error
-e_center(q) = sqrt((simCOM(1)-modelCOM(1))^2+(simCOM(2)-modelCOM(2))^2);
-e_curve_tips = sqrt((circ_tips(1,:)-tip_pos(1,:)).^2+(circ_tips(2,:)-tip_pos(2,:)).^2);
-e_stright_tips = sqrt((tips(1,:)-straight_tips(1,:)).^2+(tips(2,:)-straight_tips(2,:)).^2);
-
-%calculate SEE
-SEE_curve(q) = sum(e_curve_tips.^2)/(length(e_curve_tips)-2);
-SEE_straight(q) = sum(e_stright_tips.^2)/(length(e_stright_tips)-2);
-
-% % alternate SEE, avg
-AvgE_curve(q) = sum(e_curve_tips)/length(e_curve_tips);
-AvgE_straight(q) = sum(e_stright_tips)/length(e_stright_tips);
+% % calculate error
+% e_center(q) = sqrt((simCOM(1)-modelCOM(1))^2+(simCOM(2)-modelCOM(2))^2);
+% e_curve_tips = sqrt((circ_tips(1,:)-tip_pos(1,:)).^2+(circ_tips(2,:)-tip_pos(2,:)).^2);
+% e_stright_tips = sqrt((tips(1,:)-straight_tips(1,:)).^2+(tips(2,:)-straight_tips(2,:)).^2);
+% 
+% %calculate SEE
+% SEE_curve(q) = sum(e_curve_tips.^2)/(length(e_curve_tips)-2);
+% SEE_straight(q) = sum(e_stright_tips.^2)/(length(e_stright_tips)-2);
+% 
+% % % alternate SEE, avg
+% AvgE_curve(q) = sum(e_curve_tips)/length(e_curve_tips);
+% AvgE_straight(q) = sum(e_stright_tips)/length(e_stright_tips);
 
 %% Video data
-sim_xy{q}(1,:) = vertex_x;
-sim_xy{q}(2,:) = vertex_y;
-
-sim_COM_xy{q}(1,:) = simCOM(1);
-sim_COM_xy{q}(2,:) = simCOM(2);
-
-model_COM_xy{q}(1,:) = modelCOM(1);
-model_COM_xy{q}(2,:) = modelCOM(2);
-
-curve_xy{q}(1,:) = tip_pos(1,:);
-curve_xy{q}(2,:) = tip_pos(2,:);
-
-straight_xy{q}(1,:) = straight_tips(1,:);
-straight_xy{q}(2,:) = straight_tips(2,:);
-
-
-end
-
-
-%calculate % error
-h = .05058;
-curve_percent = 100*AvgE_curve/h;
-straight_percent = 100*AvgE_straight/h;
-COM_percent = 100*e_center/h;
-
-SEE_center = sum(e_center.^2)/(length(e_center)-2); %must do after iteration
+% sim_xy{q}(1,:) = vertex_x;
+% sim_xy{q}(2,:) = vertex_y;
+% 
+% sim_COM_xy{q}(1,:) = simCOM(1);
+% sim_COM_xy{q}(2,:) = simCOM(2);
+% 
+% model_COM_xy{q}(1,:) = modelCOM(1);
+% model_COM_xy{q}(2,:) = modelCOM(2);
+% 
+% curve_xy{q}(1,:) = tip_pos(1,:);
+% curve_xy{q}(2,:) = tip_pos(2,:);
+% 
+% straight_xy{q}(1,:) = straight_tips(1,:);
+% straight_xy{q}(2,:) = straight_tips(2,:);
+% 
+% 
+% end
+% 
+% 
+% %calculate % error
+% h = .05058;
+% curve_percent = 100*AvgE_curve/h;
+% straight_percent = 100*AvgE_straight/h;
+% COM_percent = 100*e_center/h;
+% 
+% SEE_center = sum(e_center.^2)/(length(e_center)-2); %must do after iteration
 
 %% Create plots
 % % % Plot simulation data % % %
@@ -254,9 +254,9 @@ SEE_center = sum(e_center.^2)/(length(e_center)-2); %must do after iteration
 %     plot(curve_data{i}(1,:),curve_data{i}(2,:),'rx')
 %     hold on
 % end
-% xlabel('x-location')
-% ylabel('y-location')
-% set(gcf,'color','w');
+xlabel('x-location')
+ylabel('y-location')
+set(gcf,'color','w');
 % both
 
 
@@ -367,16 +367,16 @@ SEE_center = sum(e_center.^2)/(length(e_center)-2); %must do after iteration
 % axis([0 .62 0 1.8])
 
 % % % Plot all error on one % % % USE THIS
-figure(7)
-together = plot(simtime,COM_percent,'color',[0 .7 0],'LineWidth',1.5)
-hold on 
-plot(simtime,straight_percent,'r','LineWidth',1.5)
-hold on
-plot(simtime,curve_percent,'color',[.2 .6 .9],'LineWidth',1.5)
-xlabel('Time(s)')
-ylabel('Normalized Error (%)')
-legend('Error_{com}','Error_{tips}','Error_{curve}')
-axis([0 .625 0 1.8])
+% figure(7)
+% together = plot(simtime,COM_percent,'color',[0 .7 0],'LineWidth',1.5)
+% hold on 
+% plot(simtime,straight_percent,'r','LineWidth',1.5)
+% hold on
+% plot(simtime,curve_percent,'color',[.2 .6 .9],'LineWidth',1.5)
+% xlabel('Time(s)')
+% ylabel('Normalized Error (%)')
+% legend('Error_{com}','Error_{tips}','Error_{curve}')
+% axis([0 .625 0 1.8])
 % % % STOP HERE
 
 
