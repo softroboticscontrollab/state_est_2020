@@ -1,4 +1,4 @@
-%% RISS 2020 STATICS 4-BAR v2 %%
+%% RISS 2020 STATICS 4-BAR v3 %%
 % Using statics, determine the necessary angles to fully define the shape
 % of the robot.  This script utilizes the equler lagrange approach
 
@@ -72,6 +72,65 @@ g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
 G1_3 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir] 
 G1p = -[JVG1p.']*[m1p.*g_dir]
 
+%% geometry
+x = sqrt(a1^2 + a1p^2 - 2*a1*a1p*cos(t1p-t1));
+alpha = asin((a1p*sin(t1p-t1))/x);
+beta = acos((x^2 + a2^2 - a3^2)/(2*x*a2));
+t2_final = simplify(pi - alpha - beta)
+s_zeta = (x*sin(beta))/a3;
+c_zeta = (-x^2+a3^2+a2^2)/(2*a3*a2);
+% zeta = atan2(s_zeta,c_zeta);
+zeta = asin(s_zeta)
+t3_final = simplify(pi-zeta)
+
+%% Gravitational forces in terms of generalized coordinates
+qu_qa11 = diff(t2_final,t1)
+qu_qa12 = diff(t2_final,t1p)
+qu_qa21 = diff(t3_final,t1)
+qu_qa22 = diff(t3_final,t1p)
+
+% qu_qa11 = (a1p*cos(t1-t1p)/sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)-a1p^2*sin(t1-t1p)^2*a1/(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)^(3/2))/sqrt(-a1p^2*sin(t1-t1p)^2/(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)+1)+(2*(sin(t1-t1p)*a1*a1p/(a2*sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2))-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)*sin(t1-t1p)*a1*a1p/(2*a2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)^(3/2))))/sqrt(4-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))
+% qu_qa12 = (-a1p*cos(t1-t1p)/sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)+a1p^2*sin(t1-t1p)^2*a1/(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)^(3/2))/sqrt(-a1p^2*sin(t1-t1p)^2/(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)+1)+(2*(-sin(t1-t1p)*a1*a1p/(a2*sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2))+(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)*sin(t1-t1p)*a1*a1p/(2*a2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)^(3/2))))/sqrt(4-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))
+% qu_qa21 = -(sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)*(-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)*sin(t1-t1p)*a1*a1p/(a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2))+(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2*sin(t1-t1p)*a1*a1p/(2*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)^2))/(2*sqrt(1-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(4*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))*a3)+sqrt(1-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(4*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))*sin(t1-t1p)*a1*a1p/(sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)*a3))/sqrt(-(1-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(4*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)/a3^2+1)
+% qu_qa22 = -(sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)*((a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)*sin(t1-t1p)*a1*a1p/(a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2))-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2*sin(t1-t1p)*a1*a1p/(2*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)^2))/(2*sqrt(1-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(4*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))*a3)-sqrt(1-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(4*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))*sin(t1-t1p)*a1*a1p/(sqrt(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)*a3))/sqrt(-(1-(a1^2-2*cos(t1-t1p)*a1*a1p+a2^2-a3^2+a1p^2)^2/(4*a2^2*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)))*(a1^2-2*cos(t1-t1p)*a1*a1p+a1p^2)/a3^2+1)
+
+Y = [1        0;
+     0        1;
+     qu_qa11  qu_qa12;
+     qu_qa21  qu_qa22];
+  
+ go = [G1_3(1,1);
+       G1p;
+       G1_3(2,1);
+       G1_3(3,1);]
+       
+ga = simplify(subs(Y.'*go,{t2,t3},{t2_final,t3_final}))
+
+%Test case:
+vpa(subs(ga,{a1,a2,a3,a1p,t1,t1p,m1,m2,m3,m1p,g},{3,2,3,2,0.0,pi/3,1,1,1,1,9.8}),5)
+
+
+
+%% Verify Siciliano
+Y = [1  0;
+     0  1;
+    -1  1;
+     1 -1];
+ 
+ Y.';
+ 
+ go = [G1_3(1,1);
+       G1p;
+       G1_3(2,1);
+       G1_3(3,1);];
+       
+ga = simplify(subs(Y.'*go,{t2,t3},{t1p-t1,pi-t1p+t1}));
+ 
+ 
+ 
+ 
+
+
 %% external force analysis
 % z_vec = [0;0;0];
 % Jtop = [simplify(diff(P0G1,t1)) z_vec z_vec z_vec];
@@ -80,15 +139,7 @@ G1p = -[JVG1p.']*[m1p.*g_dir]
 % gamma = [0;f2y;0;0;0;0];
 % statics_ext = J1.'*gamma
 
-%% geometry
-% x = sqrt(a1^2 + a1p^2 - 2*a1*a1p*cos(t1p-t1));
-% alpha = asin((a1p*sin(t1p-t1))/x);
-% beta = acos((x^2 + a2^2 - a3^2)/(2*x*a2));
-% t2_final = pi - alpha - beta;
-% s_zeta = (x*sin(beta))/a3;
-% c_zeta = (-x^2+a3^2+a2^2)/(2*a3*a2);
-% zeta = atan2(s_zeta,c_zeta);
-% t3_final = pi-zeta;
+
 
 %% spring torqes
 % tau1 = k1*(t0 - t1');
