@@ -2,6 +2,8 @@
 % Using statics, determine the necessary angles to fully define the shape
 % of the robot.  This script utilizes the equler lagrange approach
 
+%CHANGE
+
 clc
 clear all
 close all 
