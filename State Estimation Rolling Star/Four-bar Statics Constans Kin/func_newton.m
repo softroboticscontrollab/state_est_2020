@@ -1,4 +1,4 @@
-function [soln,er_est,x]=func_newton(R,dRdx,xi,tol,maxIter,toggle,param)
+function [soln,er_est]=func_newton(R,dRdx,xi,tol,maxIter,toggle,param)
 %   Inputs:
 %
 %   R = function to deterrmine the residuals
