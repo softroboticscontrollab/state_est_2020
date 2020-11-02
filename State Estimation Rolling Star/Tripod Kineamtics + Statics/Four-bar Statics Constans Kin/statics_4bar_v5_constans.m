@@ -77,7 +77,7 @@ JVG4 = [(diff(P0G4,t2)), (diff(P0G4,t3)), (diff(P0G4,t4))];
 
 %determine g0
 g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
-g0 = -[JVG2.' JVG3.' JVG4.']*[m2.*g_dir; m3.*g_dir; m4.*g_dir];
+g0 = -[JVG2.' JVG3.' JVG4.']*[m2.*g_dir; m3.*g_dir; m4.*g_dir]
 
 g_a = (subs(Y.'*g0,{t3,t4},{t3_final,t4_final}));
 

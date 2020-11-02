@@ -1,32 +1,26 @@
-%% RISS 2020 STATICS 4-BAR v4 %%
+%% RISS 2020 STATICS 4-BAR v5 %%
 % Using statics, determine the necessary angles to fully define the shape
 % of the robot.  This script utilizes the equler lagrange approach
 
-%CHANGE
-
+%% Prep the workspace
 clc
 clear all
 close all
 
-%create symbolic variables
-syms kappa1 kappa2 kappa3 L1 L2 L3 a4 t1 t2 t3 m1 m2 m3 g K2 K3 g t02 t03
+%% Create symbolic variables
+syms kappa1 kappa2 kappa3 L1 L2 L3 a4 t1 t2 t3 m1 m2 m3 g k2 k3 g t02 t03
 
-
-
-%% forward kineamtics
+%% Forward kineamtics
 %determine bar lengths
 n = 4;
 K = [kappa1; kappa2; kappa3];
 L = [L1; L2; L3];
-% for j = 1:n-1
-%     a{j} = 0;
-% end
 
 for i = 1:n-1
     a(i) = (2*sin((L(i)*K(i))/2))/K(i);
 end
 
-[T0n,Tnm1_n] = fwdkinRISS([a(1);a(2);a(3)], [0;0;0], [0;0;0], [t1;t2;t3])
+[T0n,Tnm1_n] = fwdkinRISS([a(1);a(2);a(3)], [0;0;0], [0;0;0], [t1;t2;t3]);
 
 %joint locations
 % x0_vec = [0;0;0];
@@ -68,22 +62,22 @@ Y = [                          1;
 
 %% Determine gravitational forces
 %determine jacobains at COM
-% JVG1 = [simplify(diff(P0G1,t1)), simplify(diff(P0G1,t2)), simplify(diff(P0G1,t3))];
-% JVG2 = [simplify(diff(P0G2,t1)), simplify(diff(P0G2,t2)), simplify(diff(P0G2,t3))];
-% JVG3 = [simplify(diff(P0G3,t1)), simplify(diff(P0G3,t2)), simplify(diff(P0G3,t3))];
+JVG1 = [simplify(diff(P0G1,t1)), simplify(diff(P0G1,t2)), simplify(diff(P0G1,t3))];
+JVG2 = [simplify(diff(P0G2,t1)), simplify(diff(P0G2,t2)), simplify(diff(P0G2,t3))];
+JVG3 = [simplify(diff(P0G3,t1)), simplify(diff(P0G3,t2)), simplify(diff(P0G3,t3))];
 
 %determine g0
-% g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
-% g0 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir];
+g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
+g0 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir];
 
-% g_a = simplify(subs(Y.'*g0,{t2,t3},{t2_final,t3_final}))
+g_a = (subs(Y.'*g0,{t2,t3},{t2_final,t3_final}));
 
 %% Deterime spring forces
 tau0 = [             0;
-        K2*(pi-t2-t02);
-        K3*(pi-t3-t03)];
+        k2*(pi-t2-t02);
+        k3*(pi-t3-t03)];
 
-tau_a = simplify(subs(Y.'*tau0,{t2,t3},{t2_final,t3_final}))
+tau_a = simplify(subs(Y.'*tau0,{t2,t3},{t2_final,t3_final}));
 
 %% Find the residual
 % R = g_a-tau_a

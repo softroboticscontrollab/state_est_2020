@@ -15,15 +15,13 @@ L3 = 5;
 L4 = 5;
 kappa2 = .1;
 kappa3 = .4;
-kappa4 = .6;
+kappa4 = .9;
 m2=1;
 m3=1;
 m4=1;
 g=9.81;
-K3=100;
-Kdel=100;
-t03=pi/2;
-t0del=pi/2;
+K3=10;
+Kdel=10;
 
 % determine bar lengths
 K = [kappa2; kappa3; kappa4];
@@ -33,23 +31,39 @@ for i = 1:n-1
     a(i+1) = barcalc(K(i),L(i));
 end
 
+%calculate initial spring lengths at t2 initial guess
+t2i = .9; %initial guess for solution
+% f_squared = a(1)^2+a(2)^2-2*a1*a(2)*cos(t2i);
+% del = acos((a(3)^2+a(4)^2-f_squared)/(2*a(3)*a(4)));
+% g_dist = a(3)-a(4)*cos(del);
+% h = a(4)*sin(del);
+% r = a(1)-a(2)*cos(t2i);
+% s = a(2)*sin(t2i);
+% t3i = atan((h*r-g_dist*s)/(g_dist*r+h*s));
+% t4i = del+t3i;
+% t03=pi-t2i+t3i;
+% t0del=t4i-t3i;
+t0del = pi/2;
+t03 = pi/2;
+
 param = [a1 L2 L3 L4 kappa2 kappa3 kappa4 m2 m3 m4 g K3 Kdel t03 t0del]; %create a vector of all paramters
 
 %% newton raphson
 %inputs and functions
 R=@resid_four_bar_statics_constans; %residual function
 dRdx=@dresid_four_bar_statics_constans; %slope of residual
-t2i=pi/1.9; %initial guess for solution
 tol=0.00001; %solution tolerance
 maxIter=1000; %max iteratios to find solution
 toggle=1; %1 prints guesses
 
 %Run numeric solver
 [t2_sol,er_est]=func_newton(R,dRdx,t2i,tol,maxIter,toggle,param);
+t2_sol = 1.01;
+
 
 %% plot results
 %find the numeric value of t2 and t3
-f_squared = a(1)^2+a(2)^2-2*a1*a(2)*cos(t2_sol)
+f_squared = a(1)^2+a(2)^2-2*a1*a(2)*cos(t2_sol);
 del = acos((a(3)^2+a(4)^2-f_squared)/(2*a(3)*a(4)));
 g_dist = a(3)-a(4)*cos(del);
 h = a(4)*sin(del);
@@ -80,6 +94,12 @@ y(5) = 0;
 plot(x,y)
 axis equal
 axis([-2 7 -2 7])
+
+%% gravitational forces
+go = [-g*m2*(sin(t2_sol)*(cos((L2*kappa2)/2)/kappa2 - (2*sin((L2*kappa2)/2))/(L2*kappa2^2)) - (sin((L2*kappa2)/2)*cos(t2_sol))/kappa2);
+ -g*m3*(sin(t3_sol)*(cos((L3*kappa3)/2)/kappa3 - (2*sin((L3*kappa3)/2))/(L3*kappa3^2)) - (sin((L3*kappa3)/2)*cos(t3_sol))/kappa3);
+  g*m4*(sin(t4_sol)*(cos((L4*kappa4)/2)/kappa4 - (2*sin((L4*kappa4)/2))/(L4*kappa4^2)) + (sin((L4*kappa4)/2)*cos(t4_sol))/kappa4)]
+
 
 %% Verify solution with energy
 %determine the location of the COM
