@@ -22,7 +22,7 @@ simdata = csvread(der_data_fname, 5, 0);
 simtime = simdata(:,1); % sec
     
 %%  Parse data from simulation at a particular time
-time = 0;       % time of simulation simulation to analyze
+time = 2;       % time of simulation simulation to analyze
 [vertex_xy,feet_data,limbs_data] = tripod_sim_parse(simdata,time);
 
 %% Plot the outputs 

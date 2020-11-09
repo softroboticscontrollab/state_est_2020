@@ -1,0 +1,25 @@
+% calibrate_fourbar_biped.m
+% Copyright 2020 Andrew P. Sabelhaus and the Soft Machines Lab at Carnegie
+% Mellon University
+
+% This script calculates calibrated spring constants k_i and angular
+% spring rest angles \bar q_i for the four-bar approximation to the
+% biped robot from DER simulations.
+
+% Approach outline:
+% 1) Read vertex data from simulation run. Calculate curvatures kappa_i and
+% virtual joint angles q_i for all timepoints t=1...T. Also extract arc
+% length.
+% 2) Formulate a linear fit problem. TO-DO: HOW TO GET THIS TO BE
+% ONLY TWO SPRINGS?
+% 3) Solve via least squares / pseudoinverse. Calculate \bar q_i from the
+% rest joint torques
+% 4) Save the results
+
+%% Prep the workspace
+
+clear all;
+close all;
+clc;
+
+%% 1) Read vertex data and calculate reduced s
