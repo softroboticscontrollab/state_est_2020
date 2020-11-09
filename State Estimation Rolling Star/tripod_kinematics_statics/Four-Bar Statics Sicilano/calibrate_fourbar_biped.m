@@ -53,6 +53,19 @@ for t = 1:size(times, 2)
     limbs{end+1} = limbs_data_t;
 end
 
+% We want to flip around the limb and foot numbering here. The rightmost leg should
+% be limb 1.
+% Here's an ugly manual way.
+for t = 1:size(limbs,2)
+    limb_1_from_3 = limbs{t}{3};
+    limbs{t}{3} = limbs{t}{1};
+    limbs{t}{1} = limb_1_from_3;
+    % and the feet
+    foot_1_from_2 = feet{t}{2};
+    feet{t}{2} = feet{t}{1};
+    feet{t}{1} = foot_1_from_2;
+end
+
 % Calculate our required variables. First, some constants: 
 n = 4;          % number bars
 s_i = 0.022;    % arc length, all limbs (m)
@@ -89,6 +102,8 @@ for t = 1:size(times, 2)
 end
 
 % Then get the virtual bar lengths
+% Per Sam's code, a(1) is right-side bar, a(2) is top, a(3) is left, a(4)
+% is the ground?
 a = {};
 for t = 1:size(times, 2)
     % For all limbs at this timestep
@@ -120,7 +135,25 @@ for t = 1:size(times, 2)
     q{t}(n) = pi - int_ang(corners_t(:,end-1), corners_t(:,end), corners_t(:,1));
 end
 
+%% Formulate the linear regression problem.
 
+% Right-hand side:
+% ga_t is a scalar,
+% Ga is a T x 1 column vector of ga_t, t=1...T timesteps
+T = size(times,2);
+Ga = zeros(T,1);
+
+% Left-hand side: 
+
+% B_t needs to be a (n-1) x n matrix, with the first row zeros because
+% Sam's code doesn't use a spring at q1 and also only includes three angles
+% {q1, q2, q3}, no need for q4.
+B_t = zeros(n-1, n);
+% And its expanded version, B_bar, 
+
+for t=1:T
+    % Build up the 
+end
 
 
 
