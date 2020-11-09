@@ -1,31 +1,58 @@
-%% RISS 2020 statics 4-bar numeric solver %%
-% Using the solution of four_bar_statics_v5, find the pose of the 4-bar
-% mechanism at static equilibrium
+% biped_statics.m
+% Copyright 2020 Sam Alvares, Andrew Sabelhaus, and the Soft Machines Lab
+% at Carnegie Mellon University
+
+% Adapted from Sam's newton_four_bar_statics, this script tests a set of
+% calibrated spring constants against the biped robot.
 
 %% Prep the workspace
 clc
 clear all
 close all
 
+% We need some functions in other folders
+addpath( genpath('../Tripod DER Simulation') );
+
+%% Read in the DER data.
+
+% Manually specify the filename. 
+der_data_fname = '../Tripod DER Simulation/simBipedAllNodes_2020_10_23_163509.csv';
+% Don't start at time zero, we get infinite radii / zero curvature since
+% the limbs are flat
+t_0 = 1.1;
+% Now, span to our max seconds
+max_t = 3.1;
+[kappa, q, a, s, masses, times] = get_biped_traj(der_data_fname, t_0, max_t);
+
 %% Enter parameters for numeric solver
 n = 4;      % number bars
-L1 = 5;     % arc leangth limb 1 (m)
-L2 = 5;     % arc leangth limb 2 (m)
-L3 = 5;     % arc leangth limb 3 (m)
-a4 = 5;     % ground bar length (m)
-kappa1 = .9;    % curvature limb 1 (1/m)
-kappa2 = .4;    % curvature limb 2 (1/m)
-kappa3 = .1;    % curvature limb 3 (1/m)
-m1=1;       % mass limb 1(kg)
-m2=1;       % mass limb 2(kg)
-m3=1;       % mass limb 3(kg)
+
+% Pick out one timepoint for now.
+timept_sec = 2 - t_0; % sec
+% Assuming a 5 msec sampling time...
+timept = round(200*timept_sec)+1;
+
+% Curvatures:
+kappa_t = cell2mat(kappa{timept})';
+% bar lengths: it's "s" here except for...
+a4 = a{timept}(4);
+% masses specified manually
+m1 = masses(1);
+m2 = masses(2);
+m3 = masses(3);
 g=9.81;     % acceleration due to gravity (m/s/s)
-k2=10;     % spring constant at joint 2 (m N/rad)
-k3=10;     % spring constant at joint 3 (m N/rad)
+
+% From our least-squares fit, hard-coded: 
+k2 = -0.214758625709777;     % spring constant at joint 2 (m N/rad)
+k3 = 0.0419545411314788;     % spring constant at joint 3 (m N/rad)
+q_2_bar = 88.91;
+q_3_bar = 90.35;
 
 % determine bar lengths
-K = [kappa1; kappa2; kappa3]; % create vector of curvature
-L = [L1; L2; L3];             % create vector of arc lengths
+%K = [kappa1; kappa2; kappa3]; % create vector of curvature
+K = kappa_t;
+%L = [L1; L2; L3];             % create vector of arc lengths
+L = s;
 a = zeros(n-1,1);
 for i = 1:n-1
     a(i) = barcalc(K(i),L(i)); % caluclate virtual bar length
@@ -40,11 +67,16 @@ beta = acos((x^2 + a(2)^2 - a(3)^2)/(2*x*a(2)));
 zeta = acos((-(x)^2+a(2)^2+a(3)^2)/(2*a(2)*a(3)));
 t2i = pi - alpha - beta;  % initial t2 (rad)
 t3i = pi - zeta;          % initial t3 (rad)
-t02 = pi -(t2i);          % unstretched spring length for t2 (rad)
-t03 = pi - (t3i);         % unstretched spring length for t3 (rad)
+
+% Sam's approach set the initial guess as the rest angle:
+%t02 = pi -(t2i);          % unstretched spring length for t2 (rad)
+%t03 = pi - (t3i);         % unstretched spring length for t3 (rad)
+% Now we can use our fitted example:
+t02 = q_2_bar;
+t03 = q_3_bar;
 
 %create a vector of parameters for the numeric solver
-param = [L1 L2 L3 a4 kappa1 kappa2 kappa3 m1 m2 m3 g k2 k3 t02 t03]; %create a vector of all paramters
+param = [s(1) s(2) s(3) a4 K(1) K(2) K(3) m1 m2 m3 g k2 k3 t02 t03]; %create a vector of all paramters
 
 %% Run Newton Raphson numeric solver
 R=@resid_four_bar_statics;      % residual function
