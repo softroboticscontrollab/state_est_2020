@@ -17,10 +17,9 @@ m1=param(8);
 m2=param(9);
 m3=param(10);
 g=param(11);
-K2=param(12);
-K3=param(13);
-t02=param(14);
-t03=param(15);
+t1=param(12);
+%t02=param(13);
+%t03=param(14);
 
 % This is 3 x 1.
 
