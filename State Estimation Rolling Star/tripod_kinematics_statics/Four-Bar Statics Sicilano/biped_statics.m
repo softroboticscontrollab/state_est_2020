@@ -22,7 +22,7 @@ der_data_fname = '../Tripod DER Simulation/simBipedAllNodes_2020_10_23_163509.cs
 t_0 = 1.1;
 % Now, span to our max seconds
 max_t = 3.1;
-[kappa, q, a, s, masses, times] = get_biped_traj(der_data_fname, t_0, max_t);
+[kappa, q, a, s, masses, times, vertices, feet] = get_biped_traj(der_data_fname, t_0, max_t);
 
 %% Enter parameters for numeric solver
 n = 4;      % number bars
@@ -42,11 +42,12 @@ m2 = masses(2);
 m3 = masses(3);
 g=9.81;     % acceleration due to gravity (m/s/s)
 
-% From our least-squares fit, hard-coded: 
-k2 = -0.214758625709777;     % spring constant at joint 2 (m N/rad)
-k3 = 0.0419545411314788;     % spring constant at joint 3 (m N/rad)
-q_2_bar = 88.91;
-q_3_bar = 90.35;
+% From our least-squares fit, hard-coded:
+% Trying it with forced zero rest angle
+k2 = 5.73995885893841;     % spring constant at joint 2 (m N/rad)
+k3 = 5.76522370043459;     % spring constant at joint 3 (m N/rad)
+q_2_bar = pi/2;
+q_3_bar = pi/2;
 
 % determine bar lengths
 %K = [kappa1; kappa2; kappa3]; % create vector of curvature
@@ -59,7 +60,7 @@ for i = 1:n-1
 end
 
 %calculate initial spring lengths at t2i, the initial guess for t2
-t1i=pi/2.1;  % initial guess of t (rad)
+t1i=pi/2.3;  % initial guess of t (rad)
 x = sqrt(a(1)^2 + a4^2 - 2*a(1)*a4*cos(pi-t1i));    
 alpha = asin((a4*sin(t1i))/x);
 beta = acos((x^2 + a(2)^2 - a(3)^2)/(2*x*a(2)));
@@ -172,7 +173,7 @@ end
 hold on 
 initial_corners = plot(xin,yin,'--k');
 axis equal
-axis([-7 2 -2 7])
+%axis([-7 2 -2 7])
 
 % Plot COM at inital pose 
 hold on
@@ -185,6 +186,18 @@ final_corners = plot(x,y,'r');
 % Plot COM at final pose 
 hold on
 final_COM = plot(P0Gx,P0Gy,'rx');
+
+% plot limb verticies from data structure
+hold on
+plot(vertices{timept}(1,:), vertices{timept}(2,:),'gx')
+
+% plot the feet verticies from data structure
+for i = 1:num_feet
+    hold on
+    plot(feet{timept}{i}(1,:), feet{timept}{i}(2,:),'gx')
+end
+axis([-.02 0.02 0 .03])
+axis equal
 
 % Create legend
 legend('Inital Pose','Initial COM','Final Pose','Final COM')

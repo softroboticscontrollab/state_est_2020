@@ -1,4 +1,4 @@
-function [kappa, q, a, s, masses, times] = get_biped_traj(der_data_fname, t_0, max_t)
+function [kappa, q, a, s, masses, times, vertices, feet] = get_biped_traj(der_data_fname, t_0, max_t)
 %get_biped_traj Read DER csv data from the biped robot, calculate the
 %reduced state, for a whole time trajectory
 %
@@ -10,6 +10,7 @@ function [kappa, q, a, s, masses, times] = get_biped_traj(der_data_fname, t_0, m
 %       kappa, q, a: time series of curvatures, angles, and bar lengths
 %       s, masses: 3x1 vectors of arc lengths and limb masses
 %       times: Tx1 vector of all the timepoints we read
+%       vertices, feet: optionally, piped through from the csv reader.
 
 simdata = csvread(der_data_fname, 5, 0);
 % We want all the timepoints. The function takes in time in sec, so we need
