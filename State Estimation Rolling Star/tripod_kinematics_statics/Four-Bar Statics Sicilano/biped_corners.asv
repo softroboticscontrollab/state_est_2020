@@ -1,0 +1,26 @@
+function corners = biped_corners(vertices_limbs, vertices_feet)
+%biped_corners Calculate the joint positions for the biped (four-bar)
+%   
+%   Given vertex data (vertices), this script outputs a 2 x 4 matrix of the
+%   (x,y) coordinates of each of the four joints of the virtual four-bar
+%   mechanism.
+%
+%   Inputs:
+%       vertices_limbs, indexed as vertices_limbs{j}{x, :) etc
+%       vertices_feet, indexed as vertices_feet{j}(x, :) etc
+%
+
+% We assume the bottom joints to be at the geometric mean in the
+% x-direction for the feet, and that the other two corners are at the first
+% vertices of limbs 2 and 3.
+
+% First foot, nodes 1 and 2, x coordinate
+x1 = (1/2) * (vertices_feet{1}(1,1) - vertices_feet{1}(1,2));
+% 
+
+corners = [vertices_feet{i}(1,:), vertices_feet{i}(2,:)
+
+outputArg1 = inputArg1;
+outputArg2 = inputArg2;
+end
+
