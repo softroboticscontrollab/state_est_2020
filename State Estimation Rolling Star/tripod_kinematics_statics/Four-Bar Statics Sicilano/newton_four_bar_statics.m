@@ -21,18 +21,18 @@ g=9.81;     % acceleration due to gravity (m/s/s)
 k2=10;     % spring constant at joint 2 (m N/rad)
 k3=10;     % spring constant at joint 3 (m N/rad)
 if (COM_on_bar)
-%     a1 = 4;
-%     a2 = 4;
-%     a3 = 3;
-%     a4 = 2;     % ground bar length (m)
-%     a = [a1, a2, a3];
+    a1 = 4;
+    a2 = 4;
+    a3 = 5;
+    a4 = 2;     % ground bar length (m)
+    a = [a1, a2, a3];
 
     % simplified energy test case
-    a1 = 1;
-    a2 = 1;
-    a3 = 1;
-    a4 = 1;     % ground bar length (m)
-    a = [a1, a2, a3];
+%     a1 = 1;
+%     a2 = 1;
+%     a3 = 1;
+%     a4 = 1;     % ground bar length (m)
+%     a = [a1, a2, a3];
 else
     L1 = 5;     % arc leangth limb 1 (m)
     L2 = 5;     % arc leangth limb 2 (m)
@@ -186,27 +186,27 @@ fprintf('\nInitiail energy: %.9f\n', Ei)
 fprintf('Final energy: %.9f\n', Ef)
 
 % Joint Tourques for simplified case
-ga = 10*a2*sin(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) + 10*a1*sin(t1_sol) - (10*a2*sin(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - 5*a3*sin(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2)) - 5*a3*sin(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - (5*a1*a4*sin(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2))))*sin(t1_sol))/(a2*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))
-ta = - k2*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2))*(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t02 + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - (a1*a4*k3*sin(t1_sol)*(t03 - pi + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3))))/(a2*a3*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))
-
-
-g0 = [ 10*a2*sin(t1_sol + t2_sol) + 10*a1*sin(t1_sol) + 5*a3*sin(t1_sol + t2_sol + t3_sol);
-                           10*a2*sin(t1_sol + t2_sol) + 5*a3*sin(t1_sol + t2_sol + t3_sol);
-                                                        5*a3*sin(t1_sol + t2_sol + t3_sol)]
-                                  
-
-t0 = [                        0;
-        -k2*(t02 + t2_sol - pi);
-        -k3*(t03 + t3_sol - pi)]
+% ga = 10*a2*sin(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) + 10*a1*sin(t1_sol) - (10*a2*sin(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - 5*a3*sin(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2)) - 5*a3*sin(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - (5*a1*a4*sin(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2))))*sin(t1_sol))/(a2*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))
+% ta = - k2*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2))*(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t02 + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - (a1*a4*k3*sin(t1_sol)*(t03 - pi + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3))))/(a2*a3*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))
+% 
+% 
+% g0 = [ 10*a2*sin(t1_sol + t2_sol) + 10*a1*sin(t1_sol) + 5*a3*sin(t1_sol + t2_sol + t3_sol);
+%                            10*a2*sin(t1_sol + t2_sol) + 5*a3*sin(t1_sol + t2_sol + t3_sol);
+%                                                         5*a3*sin(t1_sol + t2_sol + t3_sol)]
+%                                   
+% 
+% t0 = [                        0;
+%         -k2*(t02 + t2_sol - pi);
+%         -k3*(t03 + t3_sol - pi)]
 % 
 % 
 % t2_final = pi - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))
 % 
 % t3_final = acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3))
 % 
-Y =[                                                                                                                                                                                                                                                                                                                                                                                                                                                            1;
- - ((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) - ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2);
-                                                                                                                                                                                                                                                                                                                                                               (a1*a4*sin(t1_sol))/(a2*a3*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))]
+% Y =[                                                                                                                                                                                                                                                                                                                                                                                                                                                            1;
+%  - ((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) - ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2);
+%                                                                                                                                                                                                                                                                                                                                                                (a1*a4*sin(t1_sol))/(a2*a3*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))]
 
 % Joint torques for non-simplified
 
@@ -215,6 +215,12 @@ Y =[                                                                            
 %                                                                           (a3*g*m3*cos(t1_sol + t2_sol + t3_sol))/2]
 %                                                                       
 % ga = g*m3*(a2*cos(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) + (a3*cos(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))/2)*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2)) - g*m3*(a2*cos(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - a1*cos(t1_sol) + (a3*cos(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))/2) + (a1*g*m1*cos(t1_sol))/2 + a1*g*m2*cos(t1_sol) - (a1*a4*g*m3*cos(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2))))*sin(t1_sol))/(2*a2*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))
+
+g_a =(g*m3*(a2*cos(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) + (a3*cos(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))/2) + (a2*g*m2*cos(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))/2)*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2)) - g*m2*((a2*cos(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))/2 - a1*cos(t1_sol)) - g*m3*(a2*cos(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t1_sol + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - a1*cos(t1_sol) + (a3*cos(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))))/2) + (a1*g*m1*cos(t1_sol))/2 - (a1*a4*g*m3*cos(t1_sol - asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3)) - acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2))))*sin(t1_sol))/(2*a2*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2)) 
+
+
+tau_a = - k2*(((a1*a4*sin(t1_sol))/(a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - (a1*a4*sin(t1_sol)*(a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2))/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2)))/(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)^2/(4*a2^2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)))^(1/2) + ((a4*cos(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2) + (a1*a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(3/2))/(1 - (a4^2*sin(t1_sol)^2)/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2))^(1/2))*(asin((a4*sin(t1_sol))/(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)) - t02 + acos((a1^2 + 2*cos(t1_sol)*a1*a4 + a2^2 - a3^2 + a4^2)/(2*a2*(a1^2 + 2*cos(t1_sol)*a1*a4 + a4^2)^(1/2)))) - (a1*a4*k3*sin(t1_sol)*(t03 - pi + acos((a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)/(2*a2*a3))))/(a2*a3*(1 - (a1^2 + 2*cos(t1_sol)*a1*a4 - a2^2 - a3^2 + a4^2)^2/(4*a2^2*a3^2))^(1/2))
+
 
 
 % t0 = [                   0;
