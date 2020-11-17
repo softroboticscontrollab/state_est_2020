@@ -12,8 +12,8 @@ syms kappa1 kappa2 kappa3 L1 L2 L3 a1 a2 a3 a4 t1 t2 t3 m1 m2 m3 g k2 k3 g t02 t
 
 %% Determine setup configuration
 COM_on_bar = true;
-gravity = false;
-force_to_right = false;
+gravity = true;
+force_to_right = true;
 
 %% Forward kineamtics
 % Determine bar lengths
@@ -71,35 +71,30 @@ JVG3 = [(diff(P0G3,t1)), (diff(P0G3,t2)), (diff(P0G3,t3))];
 % also acting on COM
 g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
 if (gravity==true) &&  (force_to_right == true)
-    F3 = [F -g 0].';
-    g0 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; F3];
-elseif (gravity==true) &&  (force_to_right == false)
-    g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
     g0 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir];
-    
-elseif (gravity==false) &&  (force_to_right == true)
+elseif 
+    g_dir = [0 -g 0].'; %gravity expressed as a 3-space vector
+    % g0 = -[JVG1.' JVG2.' JVG3.']*[m1.*g_dir; m2.*g_dir; m3.*g_dir]
     zero_vec = [0 0 0].';
-    g0 = -[JVG1.' JVG2.' JVG3.']*[zero_vec; zero_vec; [F 0 0].'];
-else
-    g0 = [0 0 0].';
-end
-g_a = (subs(Y.'*g0,{t2,t3},{t2_final,t3_final}))
-
-%% Deterime spring forces
-tau0 = [             0;
-    k2*(pi-t2-t02);
-    k3*(pi-t3-t03)]
-
-tau_a = (subs(Y.'*tau0,{t2,t3},{t2_final,t3_final}))
-
-%% Find the residual
-R = g_a-tau_a
-dR_dt1 = (diff(R,t1))
-
-
-
-
-
-
-
-
+    g0 = -[JVG1.' JVG2.' JVG3.']*[zero_vec; zero_vec; [10 0 0].']
+    
+    g_a = (subs(Y.'*g0,{t2,t3},{t2_final,t3_final}))
+    
+    %% Deterime spring forces
+    tau0 = [             0;
+        k2*(pi-t2-t02);
+        k3*(pi-t3-t03)]
+    
+    tau_a = (subs(Y.'*tau0,{t2,t3},{t2_final,t3_final}))
+    
+    %% Find the residual
+    R = g_a-tau_a
+    dR_dt1 = (diff(R,t1))
+    
+    
+    
+    
+    
+    
+    
+    
