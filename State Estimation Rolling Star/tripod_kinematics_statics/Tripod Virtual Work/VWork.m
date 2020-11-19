@@ -17,7 +17,7 @@ function [W,J]=VWork(theta2,param)
 %   J = jacobian (1x1)
 
 %% Assign parameters
-% param = [a b c d m2 m3 m4 g kB kC thetaB thetaC];
+%   param = [a b c d m2 m3 m4 g kB kC thetaB thetaC F(i) Fg2 Fg3 Fg4 gravity force_to_right];
 a = param(1);
 b = param(2);
 c = param(3);
@@ -30,13 +30,23 @@ kB = param(9);
 kC = param(10);
 thetaB = param(11);
 thetaC = param(12);
+F = param(13);
+Fg2 = param(14);
+Fg3 = param(15);
+Fg4 = param(16);
+gravity = param(17);
+force_to_right = param(18);
 
 %% Determine external forces
-% all external forces are from gravity and point straight down
-% F2 = [0; -m2*g]; F3 = [0; -m3*g]; F4 = [0; -m4*g];
-
-%for simple energy verification
-F2 = [10; 0]; F3 = [0; 0]; F4 = [0; 0];
+if (gravity == true) && (force_to_right == true)
+    F2 = [F; Fg2]; F3 = [0; Fg3]; F4 = [0; Fg4];
+elseif (gravity == true) && (force_to_right == false)
+    F2 = [0; Fg2]; F3 = [0; Fg3]; F4 = [0; Fg4];
+elseif (gravity == false) && (force_to_right == true)
+    F2 = [F; 0]; F3 = [0; 0]; F4 = [0; 0];
+else % gravity == false and force_to_right == false)
+    F2 = [0; 0]; F3 = [0; 0]; F4 = [0; 0];
+end
 
 %% Solve for pose at current guess
 [theta3,theta4,h,delta] = fourbar(theta2,a,b,c,d);

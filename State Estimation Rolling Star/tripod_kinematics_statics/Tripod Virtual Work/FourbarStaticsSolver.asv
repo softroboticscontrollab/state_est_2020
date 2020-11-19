@@ -18,7 +18,7 @@ close all
 gravity = false;
 neutral_right_angles = true;
 force_to_right = true;
-test_case = 2;
+test_case = 3;
 
 %% Parameters
 if (test_case == 1)
@@ -52,11 +52,11 @@ m2 = 1;  m3 = 1; m4 = 1;
 g = 9.81;
 
 % Spring constans (Nm/rad)
-kB = 50; kC = 50;
+kB = 10; kC = 10;
 
 % Force to right
-Fmax = 10;
-Fstep = 0.0001;
+Fmax = 1;
+Fstep = 0.001;
 F = 0:Fstep:Fmax;
 
 % Forced due to gravity
@@ -95,30 +95,30 @@ for i = 1:length(F)
 end
 
 % determine location of pins at final configuration (m)
-% x1(1) = 0;
-% y1(1) = 0;
-% x1(2) = a*cos(theta2(1));
-% y1(2) = a*sin(theta2(1));
-% x1(3) = x1(2) + b*cos(theta3(1));
-% y1(3) = y1(2) + b*sin(theta3(1));
-% x1(4) = d;
-% y1(4) = 0;
-% 
-% xend(1) = 0;
-% yend(1) = 0;
-% xend(2) = a*cos(theta2(end));
-% yend(2) = a*sin(theta2(end));
-% xend(3) = xend(2) + b*cos(theta3(end));
-% yend(3) = yend(2) + b*sin(theta3(end));
-% xend(4) = d;
-% yend(4) = 0;
-% 
-% figure(2)
-% plot(x1,y1,'r')
-% hold on
-% plot(xend,yend,'b')
-% axis equal
-% hold off
+x1(1) = 0;
+y1(1) = 0;
+x1(2) = a*cos(theta2(1));
+y1(2) = a*sin(theta2(1));
+x1(3) = x1(2) + b*cos(1);
+y1(3) = y1(2) + b*sin(1);
+x1(4) = d;
+y1(4) = 0;
+
+xend(1) = 0;
+yend(1) = 0;
+xend(2) = a*cos(theta2(end));
+yend(2) = a*sin(theta2(end));
+xend(3) = xend(2) + b*cos(theta3(end));
+yend(3) = yend(2) + b*sin(theta3(end));
+xend(4) = d;
+yend(4) = 0;
+
+figure(2)
+plot(x1,y1,'r')
+hold on
+plot(xend,yend,'b')
+axis equal
+hold off
 
 %% Energy Verification
 % Find work due to force, F
@@ -216,36 +216,36 @@ fprintf('theta2: %1.4f rad\ntheta3: %1.4f rad\ntheta4: %1.4f rad\n',theta2(end),
 
 
 %test case 2
-x_sicilano_S = [0,-1.21541568510784,-6.14861902169833,-6]+d;
-y_sicilano_S = [0,3.81087453380374,2.99631646966562,1.33226762955019e-15];
-x_sicilano_S_G = [0,-1.75706862770346,-6.71077173724050,-6.00000000000000]+d;
-y_sicilano_S_G = [0,3.59342591930602,2.91458462521508,-4.44089209850063e-16];
-
-x_costans_S = [0,-0.148619061270426,4.78458427699186,6];
-y_constans_S = [0,2.99631646770282,3.81087452171606,0];
-x_costans_S_G = [0,-0.710771492787956,4.24293160905407,6]
-y_constans_S_G = [0,2.91458468482904,3.59342603507275,0];
-
-theta4_grav = [1.80999462932870];
-theta4_no_grav = [1.62035629951925];
-
-costans_S = plot(x_costans_S,y_constans_S,'k-','LineWidth',3);
-costans_S_G = plot(x_costans_S_G,y_constans_S_G,'k--','LineWidth',3);
-sicilano_S = plot(x_sicilano_S,y_sicilano_S,'m-','LineWidth',0.5);
-sicilano_S_G = plot(x_sicilano_S_G,y_sicilano_S_G,'m--','LineWidth',0.5);
-
-
-
-theta_grav_text = sprintf('\\theta_{4,Grav} = \\theta_{1,Grav} = %.4f rad', theta4_grav);
-text(2,4.3, theta_grav_text, 'FontSize', 10);         % put equation on plo
-theta_no_grav_text = sprintf('\\theta_{4,NoGrav} = \\theta_{1,NoGrav} = %.4f rad', theta4_no_grav);
-text(2,4.75, theta_no_grav_text, 'FontSize', 10);         % put equation on plo
-
-title_text = sprintf('Test Case with [a,b,c,d] = [%.f, %.f, %.f, %.f]',a,b,c,d);
-xlabel('x-position (m)')
-ylabel('y-position (m)')
-axis equal
-axis([-1.5 6.5 0 5])
-legend([costans_S,costans_S_G,sicilano_S,sicilano_S_G],'Constans: No Grav.','Constans: Grav.','Sicilano: No Grav.','Sicilano: Grav.', 'Location','NORTHWEST')
-
-title(title_text)
+% x_sicilano_S = [0,-1.21541568510784,-6.14861902169833,-6]+d;
+% y_sicilano_S = [0,3.81087453380374,2.99631646966562,1.33226762955019e-15];
+% x_sicilano_S_G = [0,-0.156303714817807,-5.01947504447627,-6.00000000000000]+d;
+% y_sicilano_S_G = [0,3.99694497694604,2.83523734660702,-8.88178419700125e-16];
+% 
+% x_costans_S = [0,-0.148618828807176,4.78458449963428,6];
+% y_constans_S = [0,2.99631647923312,3.81087459272419,0];
+% x_costans_S_G = [0,0.980525064845264,5.84369638454420,6];
+% y_constans_S_G = [0,2.83523730879978,3.99694498083167,0];
+% 
+% theta4_grav = [1.60988218183529];
+% theta4_no_grav = [1.87953152031875];
+% 
+% costans_S = plot(x_costans_S,y_constans_S,'k-','LineWidth',5.5);
+% costans_S_G = plot(x_costans_S_G,y_constans_S_G,'k--','LineWidth',5.5);
+% sicilano_S = plot(x_sicilano_S,y_sicilano_S,'g-','LineWidth',1.5);
+% sicilano_S_G = plot(x_sicilano_S_G,y_sicilano_S_G,'g--','LineWidth',2.3);
+% 
+% 
+% 
+% theta_grav_text = sprintf('\\theta_{4,Grav} = \\theta_{1,Grav} = %.4f rad', theta4_grav);
+% text(2,4.75, theta_grav_text, 'FontSize', 10);         % put equation on plo
+% theta_no_grav_text = sprintf('\\theta_{4,NoGrav} = \\theta_{1,NoGrav} = %.4f rad', theta4_no_grav);
+% text(2,4.3, theta_no_grav_text, 'FontSize', 10);         % put equation on plo
+% 
+% title_text = sprintf('Test Case with [a,b,c,d] = [%.f, %.f, %.f, %.f]',a,b,c,d);
+% xlabel('x-position (m)')
+% ylabel('y-position (m)')
+% axis equal
+% axis([-1.5 6.5 0 5])
+% legend([costans_S,costans_S_G,sicilano_S,sicilano_S_G],'Constans: No Grav.','Constans: Grav.','Sicilano: No Grav.','Sicilano: Grav.', 'Location','NORTHWEST')
+% 
+% title(title_text)

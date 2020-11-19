@@ -1,4 +1,4 @@
-function [soln,er_est]=NewtonRaphsonVWork(VWork,theta2_0,tol,maxIter,toggle,param)
+function [soln]=NewtonRaphsonVWork(VWork,theta2_0,tol,maxIter,toggle,param)
 %   Authors: Dr. Eric Constans (Rose-Hulman)
 %            Sam Alvares (Rose-Hulman)
 %   Date: 11/11/2020
@@ -22,7 +22,7 @@ function [soln,er_est]=NewtonRaphsonVWork(VWork,theta2_0,tol,maxIter,toggle,para
 %   soln = solution for theta2 (rad)
 %   er_est = error
 
-%% initialize
+%% Initialize
 i=1;
 %set theta2 as initial guess
 theta2(i)=theta2_0;
