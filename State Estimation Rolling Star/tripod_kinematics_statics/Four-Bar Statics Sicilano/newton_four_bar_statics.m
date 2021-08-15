@@ -13,15 +13,15 @@ L1 = 5;     % arc leangth limb 1 (m)
 L2 = 5;     % arc leangth limb 2 (m)
 L3 = 5;     % arc leangth limb 3 (m)
 a4 = 5;     % ground bar length (m)
-kappa1 = .9;    % curvature limb 1 (1/m)
-kappa2 = .4;    % curvature limb 2 (1/m)
-kappa3 = .1;    % curvature limb 3 (1/m)
+kappa1 = .3;    % curvature limb 1 (1/m)
+kappa2 = .1;    % curvature limb 2 (1/m)
+kappa3 = .2;    % curvature limb 3 (1/m)
 m1=1;       % mass limb 1(kg)
 m2=1;       % mass limb 2(kg)
 m3=1;       % mass limb 3(kg)
 g=9.81;     % acceleration due to gravity (m/s/s)
-k2=10;     % spring constant at joint 2 (m N/rad)
-k3=10;     % spring constant at joint 3 (m N/rad)
+k2=5;     % spring constant at joint 2 (m N/rad)
+k3=2;     % spring constant at joint 3 (m N/rad)
 
 % determine bar lengths
 K = [kappa1; kappa2; kappa3]; % create vector of curvature
@@ -32,7 +32,7 @@ for i = 1:n-1
 end
 
 %calculate initial spring lengths at t2i, the initial guess for t2
-t1i=pi/2.1;  % initial guess of t (rad)
+t1i=pi/1.9;  % initial guess of t (rad)
 x = sqrt(a(1)^2 + a4^2 - 2*a(1)*a4*cos(pi-t1i));    
 alpha = asin((a4*sin(t1i))/x);
 beta = acos((x^2 + a(2)^2 - a(3)^2)/(2*x*a(2)));
@@ -155,7 +155,8 @@ hold on
 final_COM = plot(P0Gx,P0Gy,'rx');
 
 % Create legend
-legend('Inital Pose','Initial COM','Final Pose','Final COM')
+title('Four-Bar Statics Example');
+legend('Initial Guess','Guess COM','Soln. Pose','Soln. COM')
 xlabel('x-position (m)')
 ylabel('y-position (m)')
 

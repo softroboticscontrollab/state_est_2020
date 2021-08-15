@@ -187,20 +187,21 @@ final_corners = plot(x,y,'r');
 hold on
 final_COM = plot(P0Gx,P0Gy,'rx');
 
-% plot limb verticies from data structure
-hold on
-plot(vertices{timept}(1,:), vertices{timept}(2,:),'gx')
+% %plot limb verticies from data structure
+% hold on
+% plot(vertices{timept}(1,:), vertices{timept}(2,:),'gx')
 
-% plot the feet verticies from data structure
-for i = 1:num_feet
-    hold on
-    plot(feet{timept}{i}(1,:), feet{timept}{i}(2,:),'gx')
-end
-axis([-.02 0.02 0 .03])
-axis equal
+% % plot the feet verticies from data structure
+% for i = 1:num_feet
+%     hold on
+%     plot(feet{timept}{i}(1,:), feet{timept}{i}(2,:),'gx')
+% end
+% axis([-.02 0.02 0 .03])
+% axis equal
 
 % Create legend
-legend('Inital Pose','Initial COM','Final Pose','Final COM')
+title('Biped Statics Example');
+legend('Initial Guess','Guess COM','Soln. Pose','Soln. COM')
 xlabel('x-position (m)')
 ylabel('y-position (m)')
 
